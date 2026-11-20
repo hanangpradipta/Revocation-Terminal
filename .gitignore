@@ -1,0 +1,15 @@
+# Dependensi npm (dipasang ulang dengan: npm ci)
+node_modules/
+
+# Cache dan artefak kompilasi Hardhat (dibuat ulang otomatis)
+build/hardhat-cache/
+build/hardhat-artifacts/
+
+# Berkas lingkungan berisi private key: JANGAN PERNAH di-commit
+.env
+.env.*
+!.env.example
+
+# Lain-lain
+.DS_Store
+*.log

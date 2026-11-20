@@ -1,0 +1,23 @@
+{
+  "name": "revocation-terminal",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Modul pencabutan kredensial digital pendidikan berbasis Sparse Merkle Tree dan zk-SNARK Groth16, versi terminal, dibangun bertahap per fase (prototipe tesis).",
+  "license": "UNLICENSED",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "fase0": "node scripts/00-fondasi.js",
+    "test": "hardhat test",
+    "test:fase0": "hardhat test test/fase0-common.test.js"
+  },
+  "dependencies": {
+    "circomlibjs": "0.1.7",
+    "ethers": "6.17.0"
+  },
+  "devDependencies": {
+    "chai": "4.5.0",
+    "hardhat": "2.29.1"
+  }
+}
