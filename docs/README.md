@@ -15,5 +15,6 @@ Setiap dokumen berstruktur sama:
 | Fase | Dokumen | Status |
 |---|---|---|
 | 0 | [fase-0-fondasi.md](fase-0-fondasi.md) | ✔ |
+| 1 | [fase-1-sirkuit.md](fase-1-sirkuit.md) | ✔ |
 
 Dokumen fase berikutnya ditambahkan satu per satu setelah fase sebelumnya Anda pahami.

@@ -8,13 +8,19 @@
     "node": ">=20"
   },
   "scripts": {
+    "circuit:compile": "node scripts/01-compile-circuits.js",
+    "circuit:lint": "node scripts/02-lint-circuit.js",
     "fase0": "node scripts/00-fondasi.js",
+    "fase1": "node scripts/fase1-peragaan.js",
     "test": "hardhat test",
-    "test:fase0": "hardhat test test/fase0-common.test.js"
+    "test:fase0": "hardhat test test/fase0-common.test.js",
+    "test:fase1": "hardhat test test/fase1-circuit.test.js"
   },
   "dependencies": {
+    "circomlib": "2.0.5",
     "circomlibjs": "0.1.7",
-    "ethers": "6.17.0"
+    "ethers": "6.17.0",
+    "snarkjs": "0.7.6"
   },
   "devDependencies": {
     "chai": "4.5.0",

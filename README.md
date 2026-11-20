@@ -27,7 +27,7 @@ Fase berikutnya baru dibuat setelah fase sebelumnya Anda pahami.
 | Fase | Isi | Dokumen | Status |
 |---|---|---|---|
 | 0 | Fondasi: Poseidon, s, h, C, ctx, pohon pencabutan + daun genesis | [fase-0-fondasi.md](docs/fase-0-fondasi.md) | ✔ |
-| 1 | Sirkuit `NonRevocation(d)`, constraint, Circomspect, serangan `isOld0` | — | belum |
+| 1 | Sirkuit `NonRevocation(d)`, constraint, Circomspect, serangan `isOld0` | [fase-1-sirkuit.md](docs/fase-1-sirkuit.md) | ✔ |
 | 2 | Trusted setup Groth16, kunci, kontrak Verifier | — | belum |
 | 3 | Kontrak `RevocationRegistry` | — | belum |
 | 4 | Issuer, holder, verifier | — | belum |
@@ -59,14 +59,20 @@ npm test
 |---|---|---|
 | `npm run fase0` | Peragaan fondasi di terminal | 0 |
 | `npm run test:fase0` | 16 tes fondasi | 0 |
-| `npm test` | Semua tes yang sudah ada | semua |
+| `npm run fase1` | Peragaan sirkuit di terminal | 1 |
+| `npm run test:fase1` | 16 tes sirkuit | 1 |
+| `npm run circuit:compile` / `circuit:lint` | Membangun ulang sirkuit / Circomspect (butuh circom) | 1 |
+| `npm test` | Semua tes yang sudah ada (32) | semua |
 
-## Struktur (fase 0)
+## Struktur (sampai fase 1)
 
 ```
-src/common/          field, poseidon, commitment, context, revocationTree, paths
-scripts/             00-fondasi.js (peragaan)
-test/                fase0-common.test.js + helpers/fixtures.js
+circuits/            sirkuit Circom (NonRevocation) + main per kedalaman + varian uji
+src/common/          field, poseidon, commitment, context, revocationTree, paths, zk
+scripts/             00-fondasi.js, fase1-peragaan.js (peragaan) · 01-02 (kompilasi, Circomspect)
+build/circuits/      hasil kompilasi sirkuit (.r1cs, .wasm)
+results/             hasil terukur (jumlah constraint, Circomspect)
+test/                fase0-common.test.js, fase1-circuit.test.js + helpers/fixtures.js
 docs/                dokumen per fase
 hardhat.config.js    penjalan tes
 ```

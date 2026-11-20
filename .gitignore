@@ -13,3 +13,6 @@ build/hardhat-artifacts/
 # Lain-lain
 .DS_Store
 *.log
+
+# Tabel nama sinyal hasil kompilasi (hanya untuk debugging; besar)
+build/circuits/**/*.sym

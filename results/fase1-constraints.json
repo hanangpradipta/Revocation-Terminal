@@ -1,0 +1,52 @@
+{
+  "compiler": "circom compiler 2.2.2",
+  "generatedAt": "2026-11-20T22:21:29.548Z",
+  "rows": [
+    {
+      "depth": 8,
+      "constraints": 7682,
+      "wires": 7692,
+      "publicInputs": 3,
+      "privateInputs": 15
+    },
+    {
+      "depth": 16,
+      "constraints": 11954,
+      "wires": 11972,
+      "publicInputs": 3,
+      "privateInputs": 23
+    },
+    {
+      "depth": 24,
+      "constraints": 16226,
+      "wires": 16252,
+      "publicInputs": 3,
+      "privateInputs": 31
+    },
+    {
+      "depth": 32,
+      "constraints": 20498,
+      "wires": 20532,
+      "publicInputs": 3,
+      "privateInputs": 39
+    }
+  ],
+  "deltas": [
+    {
+      "from": 8,
+      "to": 16,
+      "deltaPerLevel": 534
+    },
+    {
+      "from": 16,
+      "to": 24,
+      "deltaPerLevel": 534
+    },
+    {
+      "from": 24,
+      "to": 32,
+      "deltaPerLevel": 534
+    }
+  ],
+  "linear": true
+}

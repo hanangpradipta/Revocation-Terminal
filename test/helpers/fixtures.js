@@ -5,7 +5,7 @@
  * secara ringkas, supaya setiap tes tidak perlu menulis ulang langkahnya.
  * Data yang dihasilkan fiktif (Bab III 3.4: tidak memakai data kredensial nyata).
  *
- * Berkas ini BERTAMBAH di fase berikutnya (input sirkuit, pencabutan acak, dst.).
+ * FASE 1 menambah makeValidInput, revokeRandom, dan makeRevokedCredential.
  */
 
 const { // fungsi fondasi yang dibutuhkan pembantu
@@ -16,6 +16,7 @@ const { // fungsi fondasi yang dibutuhkan pembantu
   generateNonce, // nonce sesi
   computeContext, // ctx
   addressToField, // alamat → bilangan
+  buildCircuitInput, // menyusun input sirkuit (fase 1)
 } = require("../../src/common"); // diambil dari src/common
 
 /** Alamat contoh issuer dan verifier (format alamat Ethereum sah, bukan akun nyata). */
@@ -51,7 +52,56 @@ async function makeSession(verifierAddress = VERIFIER_A) { // membuat satu sesi 
   return { nonce, verifierId, ctx }; // kembalikan nonce, verifierId, dan ctx
 }
 
+/**
+ * Menyusun input sirkuit yang SAH untuk kredensial cred terhadap pohon tree.
+ * @param {RevocationTree} tree pohon pencabutan issuer
+ * @param {object} cred hasil makeCredential
+ * @param {bigint} ctx nilai konteks sesi
+ */
+async function makeValidInput(tree, cred, ctx) { // membuat input sirkuit yang sah
+  const path = await tree.getNonInclusionWitness(cred.C); // lintasan non-inklusi
+  return buildCircuitInput({ ...cred, root: path.root, ctx, path }); // gabungkan semua nilai menjadi input sirkuit
+}
+
+/**
+ * Mencabut n kredensial acak untuk mengisi pohon. Pada pohon dangkal (d = 8)
+ * tumbukan posisi daun cukup sering terjadi (Persamaan 3.2); kredensial yang
+ * bertumbukan dilewati dan diganti kredensial acak lain.
+ * @param {RevocationTree} tree
+ * @param {number} n jumlah pencabutan yang diinginkan
+ */
+async function revokeRandom(tree, n) { // mengisi pohon dengan n pencabutan acak
+  let done = 0; // jumlah pencabutan yang sudah berhasil
+  while (done < n) { // ulangi sampai n pencabutan berhasil
+    try { // coba cabut satu kredensial
+      if (await tree.revoke((await makeCredential()).C)) done++; // cabut satu kredensial acak
+    } catch (e) { // tumbukan boleh diulang
+      if (!e.message.startsWith("Tumbukan")) throw e; // galat lain tetap dilaporkan
+    }
+  }
+}
+
+/**
+ * Membuat kredensial lalu langsung mencabutnya, mengulang bila terjadi tumbukan.
+ * @param {RevocationTree} tree
+ * @returns {Promise<object>} kredensial yang sudah dicabut
+ */
+async function makeRevokedCredential(tree) { // membuat kredensial yang sudah dicabut
+  for (;;) { // ulangi terus sampai berhasil
+    const cred = await makeCredential(); // kredensial baru
+    try { // coba cabut
+      await tree.revoke(cred.C); // cabut
+      return cred; // berhasil: kembalikan kredensial yang sudah dicabut
+    } catch (e) { // tumbukan boleh diulang
+      if (!e.message.startsWith("Tumbukan")) throw e; // hanya tumbukan yang boleh diulang
+    }
+  }
+}
+
 module.exports = { // fungsi & konstanta yang dipakai file tes
+  revokeRandom, // pengisi pohon
+  makeRevokedCredential, // pembuat kredensial dicabut
+  makeValidInput, // pembuat input sah
   ISSUER_1, // alamat issuer 1
   ISSUER_2, // alamat issuer 2
   VERIFIER_A, // alamat verifier A
