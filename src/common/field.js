@@ -16,6 +16,14 @@ const { getAddress } = require("ethers"); // getAddress(): memvalidasi alamat Et
 /**
  * Orde lapangan prima skalar kurva BN254 (alt_bn128). Circom dan snarkjs
  * bekerja modulo bilangan ini. Nilai ini konstan dan bersifat publik.
+ *
+ * ASAL ANGKA: bukan dipilih atau dihitung di proyek ini, melainkan konstanta standar kurva BN254
+ * (EIP-196/197 di Ethereum; sama persis di circom, snarkjs, circomlibjs, dan ffjavascript).
+ * Rumus pembentuknya, dari keluarga kurva Barreto–Naehrig dengan parameter x = 4965661367192848881:
+ *     p = 36x^4 + 36x^3 + 18x^2 + 6x + 1
+ * Sudah diperiksa: hasil rumus ini sama persis dengan angka di bawah, dan angkanya bilangan prima.
+ * Ini BUKAN modulus lapangan koordinat kurva (rumusnya 24x^2, bukan 18x^2); yang kita pakai
+ * adalah lapangan "skalar" yang menjadi tempat semua sinyal sirkuit.
  */
 const FIELD_P = // nilai konstanta ada di baris berikutnya
   21888242871839275222246405745257275088548364400416034343698204186575808495617n; // akhiran "n" = tipe BigInt (bilangan bulat sangat besar di JavaScript)

@@ -91,7 +91,7 @@ Setiap baris kode di berkas-berkas ini diberi komentar. **Urutan baca yang disar
 
 | No | Berkas | Isi | Baris |
 |---|---|---|---|
-| 1 | `src/common/field.js` | Lapangan prima BN254, bilangan acak, alamat → bilangan | 70 |
+| 1 | `src/common/field.js` | Lapangan prima BN254, bilangan acak, alamat → bilangan | 78 |
 | 2 | `src/common/poseidon.js` | Hash Poseidon | 50 |
 | 3 | `src/common/commitment.js` | `s`, `h`, `credId`, `C` | 74 |
 | 4 | `src/common/context.js` | `nonce`, `ctx` | 36 |
@@ -121,10 +121,10 @@ Pustaka lain (circom, snarkjs, did-resolver, jose, express, dst.) baru ditambahk
 
 | Fungsi | Baris | Masukan → keluaran | Penjelasan |
 |---|---|---|---|
-| `FIELD_P` | 20 | konstanta | Orde lapangan prima BN254. Semua nilai sirkuit harus `< FIELD_P` |
-| `randomFieldElement()` | 33 | — → bigint 248 bit | 31 byte acak dari generator kriptografis OS. 2^248 < FIELD_P, jadi selalu sah. Dipakai untuk `s`, `credId`, `nonce` |
-| `assertField(x, name)` | 46 | bigint → bigint | Melempar galat bila `x` bukan bigint atau di luar lapangan |
-| `addressToField(addr)` | 66 | `"0xAbC…"` → bigint | Alamat Ethereum (160 bit) menjadi bilangan; checksum divalidasi. Dipakai untuk `issuerId` dan `verifierId` |
+| `FIELD_P` | 28 | konstanta | Orde lapangan prima BN254. Semua nilai sirkuit harus `< FIELD_P`. **Asal angka:** konstanta standar kurva, = 36x⁴ + 36x³ + 18x² + 6x + 1 dengan x = 4965661367192848881 (lihat komentar di kode) |
+| `randomFieldElement()` | 41 | — → bigint 248 bit | 31 byte acak dari generator kriptografis OS. 2^248 < FIELD_P, jadi selalu sah. Dipakai untuk `s`, `credId`, `nonce` |
+| `assertField(x, name)` | 54 | bigint → bigint | Melempar galat bila `x` bukan bigint atau di luar lapangan |
+| `addressToField(addr)` | 74 | `"0xAbC…"` → bigint | Alamat Ethereum (160 bit) menjadi bilangan; checksum divalidasi. Dipakai untuk `issuerId` dan `verifierId` |
 
 ### `poseidon.js`
 
